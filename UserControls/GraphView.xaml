@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="GraphPlotter.GraphView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:GraphPlotter"
+             xmlns:jas="clr-namespace:WPF.JoshSmith.Panels;assembly=WPF.JoshSmith"
+             mc:Ignorable="d">
+  <UserControl.Resources>
+    <Style x:Key="NodeBorderStyle"
+           TargetType="{x:Type Border}">
+      <Setter Property="Background"
+              Value="LightGreen" />
+      <Setter Property="BorderThickness"
+              Value="3" />
+      <Setter Property="BorderBrush"
+              Value="Gray" />
+      <Setter Property="Height"
+              Value="{Binding Path=NodeHeight, Mode=OneTime}" />
+      <Setter Property="Padding"
+              Value="4" />
+      <Setter Property="TextElement.FontWeight"
+              Value="Normal" />
+      <Setter Property="Width"
+              Value="{Binding Path=NodeWidth, Mode=OneTime}" />
+    </Style>
+  </UserControl.Resources>
+  <DockPanel>
+    <DockPanel.Background>
+      <SolidColorBrush Color="Black"
+                       Opacity="0.65" />
+    </DockPanel.Background>
+    <TextBlock DockPanel.Dock="Top"
+               FontSize="22"
+               FontWeight="Bold"
+               Foreground="WhiteSmoke"
+               Padding="2"
+               Text="{Binding Path=Title, Mode=OneTime}"
+               TextAlignment="Center" />
+    <local:EdgeAdornerDecorator Graph="{Binding Path=., Mode=OneTime}" x:Name="myadorner">
+      <ItemsControl Background="WhiteSmoke" />
+    </local:EdgeAdornerDecorator>
+  </DockPanel>
+</UserControl>

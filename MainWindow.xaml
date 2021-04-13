@@ -1,0 +1,208 @@
+﻿<Window x:Class="GraphPlotter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GraphPlotter"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        AllowsTransparency="True"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="CanResizeWithGrip"
+        WindowStyle="None"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        MinHeight="600"
+        MinWidth="600"
+        SizeChanged="OnSizeChanged"
+        Loaded="Window_Loaded"
+        x:Name="MainWin">
+    <Window.Background>
+        <SolidColorBrush Color="Transparent" />
+    </Window.Background>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="WindowResources.xaml" />
+                <ResourceDictionary Source="/CustomControls/ExpanderTemplate.xaml" />
+                <ResourceDictionary Source="/Resources/UsedSvgs.xaml" />
+                <ResourceDictionary Source="/CustomControls/BusyControlTemplate.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Border BorderBrush="LightGray"
+          BorderThickness="1"
+          CornerRadius="6"
+          Padding="4">
+        <xctk:BusyIndicator Name="BusyControl"
+                        IsBusy="False"
+                        Style="{StaticResource BusyStyle}">
+            <xctk:BusyIndicator.BusyContentTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Button Content="{StaticResource Spinner}"
+                    Template="{StaticResource BusyButtonTemplate}"
+                    Click="SpinnerStop"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center">
+                        </Button>
+                        <TextBlock Text="{Binding BusyCost,
+              ElementName=MainWin,Mode=OneWay,
+              NotifyOnSourceUpdated=True,
+              StringFormat='Best Result by far: {0}'}"
+                       Foreground="Black"
+                       FontSize="14"
+                        FontWeight="DemiBold"
+                       Opacity="1"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Bottom" />
+                        <TextBlock Text="{Binding BusyDiff,
+              ElementName=MainWin,Mode=OneWay,
+              NotifyOnSourceUpdated=True,
+              StringFormat='Results differ by {0}'}"
+                       Foreground="Black"
+                       FontSize="14"
+                       Opacity="1"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Bottom" />
+                    </StackPanel>
+                </DataTemplate>
+            </xctk:BusyIndicator.BusyContentTemplate>
+
+            <Grid>
+
+                <AdornerDecorator>
+                    <local:GraphView x:Name="mygraphview" />
+                </AdornerDecorator>
+                <Button Content=""
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Template="{StaticResource FlipButtonTemplate}"
+                Width="30"
+                Height="30"
+                Click="CloseClick"
+                Margin="0,-1,0,0"
+                FontSize="12"
+                ToolTip="Close" />
+                <Button Content=""
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Template="{StaticResource FlipButtonTemplate}"
+                Width="30"
+                Height="30"
+                Click="MinimizeClick"
+                Margin="0,-1,35,0"
+                FontSize="12"
+                ToolTip="Minimize" />
+                <Button Content="&#xf0c7;"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Template="{StaticResource FlipButtonTemplate}"
+                Width="30"
+                Height="30"
+                Click="SaveButtonClick"
+                Margin="70,-1,0,0"
+                FontSize="16"
+                ToolTip="Save" />
+                <Button Content="&#xf5c7;"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Template="{StaticResource FlipButtonTemplate}"
+                Width="30"
+                Height="30"
+                Click="ClearColorsClick"
+                Margin="105,-1,0,0"
+                FontSize="15"
+                ToolTip="Clear Colors" />
+                <Button Content="&#xf07c;"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Template="{StaticResource FlipButtonTemplate}"
+                Width="30"
+                Height="30"
+                Click="LoadButtonClick"
+                Margin="35,-1,0,0"
+                FontSize="16"
+                ToolTip="Load" />
+                <Button Content="&#xf15b;"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Template="{StaticResource FlipButtonTemplate}"
+                Width="30"
+                Height="30"
+                Click="NewButtonClick"
+                Margin="0,-1,0,0"
+                FontSize="15"
+                ToolTip="New" />
+                <local:MyExpander ExpandDirection="Left"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Top"
+                          Margin="0,5,0,0"
+                          Template="{DynamicResource RevealExpanderTemp}">
+                    <Border CornerRadius="0,0,5,5"
+                  BorderBrush="Transparent"
+                  MinHeight="60">
+                        <Border.Background>
+                            <SolidColorBrush Color="Transparent"
+                               Opacity="0.7" />
+                        </Border.Background>
+
+                        <DockPanel>
+                            <Border Height="8"
+                      BorderBrush="Transparent"
+                      Background="Transparent"
+                      DockPanel.Dock="Top" />
+
+                            <Border CornerRadius="0,0,5,5">
+                                <Border.Background>
+                                    <SolidColorBrush Color="Black"
+                                   Opacity="0.7" />
+                                </Border.Background>
+                                <Grid DockPanel.Dock="Bottom">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Template="{StaticResource MenuButtonTemplate}"
+                          Grid.Column="0"
+                          Content="{StaticResource RoadView}"
+                          Click="Button_Click_1"
+                          ToolTip="Find Shortest Path" />
+                                    <Button Template="{StaticResource MenuButtonTemplate}"
+                          Grid.Column="1"
+                          Content="{StaticResource TreeView}"
+                          Click="Button_Click_2"
+                          ToolTip="Get Minimum Spanning Tree" />
+                                    <Button Template="{StaticResource MenuButtonTemplate}"
+                          Grid.Column="2"
+                          Content="{StaticResource CarView}"
+                          Click="Button_Click_3"
+                          ToolTip="Travel using shortest paths" />
+                                    <Button Template="{StaticResource MenuButtonTemplate}"
+                          Grid.Column="3"
+                          Content="{StaticResource PaintBoard}"
+                          Click="Button_Click_4"
+                          ToolTip="Colorize Graph" />
+                                    <Button Template="{StaticResource MenuButtonTemplate}"
+                          Grid.Column="4"
+                          Content="{StaticResource AntView}"
+                          Click="Button_Click_5"
+                          ToolTip="Travel using Ants!" />
+                                </Grid>
+                            </Border>
+                        </DockPanel>
+                    </Border>
+                </local:MyExpander>
+
+            </Grid>
+        </xctk:BusyIndicator>
+    </Border>
+</Window>
