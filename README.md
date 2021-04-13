@@ -15,14 +15,7 @@
 
 ## ScreenShots
 
-<div style="display: flex;">
-  <div style="fload: left; padding-right: 5px;">
-    <img src="ScreenShots/S1.jpg" width=100%>
-  </div>
-  <div class="fload: left;">
-    <img src="ScreenShots/S2.jpg" width=100%>
-  </div>
-</div>
+![](ScreenShots/S1.jpg)
 
 ## License
 
